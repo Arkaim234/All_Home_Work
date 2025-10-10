@@ -1,0 +1,6 @@
+{
+  "SearcherUri": "Searcher",
+  "ChatGPTUri": "ChatGPT",
+  "Domain": "localhost",
+  "Port": "1337"
+}
