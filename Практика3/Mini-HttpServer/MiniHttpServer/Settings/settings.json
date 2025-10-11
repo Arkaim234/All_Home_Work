@@ -1,6 +1,7 @@
 {
   "SearcherUri": "Searcher",
   "ChatGPTUri": "ChatGPT",
+  "OlaraUri": "Olara",
   "Domain": "localhost",
   "Port": "1337"
 }

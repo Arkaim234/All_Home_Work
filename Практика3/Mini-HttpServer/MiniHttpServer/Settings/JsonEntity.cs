@@ -11,13 +11,15 @@ namespace MiniHttpServer.Settings
     {
         public string SearcherPath { get; set; }
         public string ChatGPTPath { get; set; }
+        public string OlaraUri { get; set; }
         public string SearcherUri { get; set; }
         public string ChatGPTUri { get; set; }
         public string Domain { get; set; }
         public string Port { get; set; }
 
-        public JsonEntity(string searcherPath, string chatGPTPath, string searcherUri,string chatGPTUri, string domain, string port)
+        public JsonEntity(string olaraUri, string searcherPath, string chatGPTPath, string searcherUri,string chatGPTUri, string domain, string port)
         {
+            OlaraUri = olaraUri;
             SearcherPath = searcherPath;
             ChatGPTPath = chatGPTPath;
             SearcherUri = searcherUri;

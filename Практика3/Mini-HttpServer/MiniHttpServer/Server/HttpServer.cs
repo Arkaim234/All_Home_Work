@@ -56,6 +56,8 @@ namespace MiniHttpServer.Server
                     buffer = GetResponseBytes.Invoke("searcher.html");
                 else if (path == _config.ChatGPTUri)
                     buffer = GetResponseBytes.Invoke("chatgpt.html");
+                else if (path == _config.OlaraUri)
+                    buffer = GetResponseBytes.Invoke("login.html");
                 else
                 {
                     buffer = GetResponseBytes.Invoke(path);
