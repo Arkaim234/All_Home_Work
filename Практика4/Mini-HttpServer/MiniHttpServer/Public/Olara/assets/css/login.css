@@ -1,0 +1,317 @@
+* { box-sizing: border-box; }
+html,body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #f9fbfa;
+  color: #0f1720;
+}
+
+.page {
+  display: flex;
+  height: 100vh;
+  align-items: stretch;
+}
+
+.left {
+  width: 50%;
+  padding: 50px 50px 83px 42px;
+  display: flex;
+  flex-direction: column;
+  background: #f9fbfa;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-mark {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg,#1c4532,#123c2a);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.logo-text {
+  font-weight: 700;
+  font-size: 20px;
+  color: #1c4532;
+}
+.signin {
+  margin-left: 96px;
+}
+.signin h1 {
+  margin: 40px 0 8px 0;
+  font-size: 48px;
+  line-height: 1;
+}
+.hint {
+  color: #6b7280;
+  font-size: 18px;
+}
+.hint a { color: #1c4532; text-decoration: none; font-weight: 600; }
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.form label {
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 8px;
+  color: #111827;
+}
+
+.form input[type="email"],
+.form input[type="password"] {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e6e9e8;
+  background: #fff;
+  font-size: 15px;
+  outline: none;
+  height: 55px;
+}
+
+.row { display: flex; align-items: center; gap: 12px; }
+
+.password-row { 
+  position: relative;
+}
+
+.password-row input { flex: 1; width: 100%; padding-right: 50px; }
+.eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  padding: 8px;
+  cursor: pointer;
+  border-left: 1px solid #e6e9e8;
+}
+
+.options { justify-content: space-between; font-size: 16px; color: #374151; padding: 32px 0px; }
+.options input { margin-right: 8px; }
+.forgot { color: #1c4532; text-decoration: none; font-weight: 600; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 0;
+}
+
+.btn.primary {
+  background: #1c4532;
+  color: #fff;
+  font-size: 20px;
+  margin: 0px 0px 32px 0px;
+  border-radius: 50px;
+  height: 60px;
+}
+
+.btn.ghost {
+  background: #123c2a;
+  color: #ffffff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 100px;
+  width: 60%;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 18px 0;
+  color: rgb(160, 174, 192);
+  font-weight: 600;
+}
+.divider .line {
+  height: 1px;
+  background: #e2e6e5;
+  flex: 1;
+}
+
+.btn.social { 
+  background: #fff; 
+  border: 1px solid #e6e9e8; 
+  color: #111827; 
+  padding: 0 16px 0 60px; 
+  text-align: left; 
+  font-size: 18px; 
+  border-radius: 100px; 
+  height: 60px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.btn.social .logo-gogle,
+.btn.social .logo-facebook {
+  position: absolute;
+  left: 16px; 
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.google { margin-top: 32px;} 
+
+.right {
+  width: 50%;
+  background: #123c2a; 
+  color: #fff;
+  padding: 48px 72px;
+  display: flex;
+  flex-direction: column;
+  background-image: url(../img/circle.png);
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
+.topline {
+  text-align: right;
+  opacity: 0.85;
+  font-size: 14px;
+  display: flex;
+  align-self: center;
+}
+
+.promo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+
+.promo-card {
+  background: #ffffff;
+  color: #0f2d22;
+  border-radius: 12px;
+  width: 100%;
+  display: flex;
+  gap: 24px;
+  padding: 44px;
+  align-items: center;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+  background-image: url(../img/Illustration.png);
+  background-repeat: no-repeat;
+  background-position: right center;
+  margin-top: 120px;
+}
+
+.promo-left { flex: 1; }
+.promo-left h2 { margin: 0 0 10px 0; font-size: 34px; color: #123c2a; }
+.promo-text { margin: 0 0 16px 0; color: #4b5b50; line-height: 1.4; }
+
+.promo-right {
+  width: 210px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-graphic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px;
+}
+.card-graphic .chip {
+  width: 32px; height: 20px; background: rgba(255,255,255,0.18); border-radius: 3px; margin-bottom: 12px;
+}
+.card-graphic .numbers { font-size: 12px; letter-spacing: 1px; opacity: 0.95; }
+
+.earnings {
+  margin-left: auto;
+  margin-top: -60px; 
+  background: #ffffff;
+  color: #123c2a;
+  padding: 14px 18px;
+  border-radius: 12px;
+  box-shadow: 0 8px 26px rgba(0,0,0,0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: 50%;
+}
+
+.earn-value-lable{
+    display: flex;
+    flex-direction: column;
+}
+.diagram{
+    display: flex;
+    flex-direction: column;
+}
+
+.earn-label { font-size: 13px; opacity: 0.8; }
+.earn-value { font-weight: 700; font-size: 20px; }
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  max-width: 680px;
+  gap: 18px;
+  margin-top: 120px;
+  height: 100%;
+}
+
+.intro h2 { margin: 0 0 10px 0; color: #ffffff; display: flex; align-self: center; font-size: 40px;}
+.intro p { margin: 0; color: rgba(255,255,255,0.9); line-height: 1.5; display: flex; text-align: center;  font-size: 20px; align-self: center; }
+
+.point {
+    display: flex;
+    align-self: center;
+}
+
+.account p{
+    margin-top: 34px;
+}
+
+@media (max-width: 964px) {
+    .right {
+        display: none;
+    }
+    .left {
+        width: 100%;
+    }
+}
+
+@media (max-width: 440px) {
+    .hint {
+        display: none;
+    }
+    .sign-in__social__create-now {
+        display: block;
+    }
+    .eye {
+        display: none;
+    }
+    .password-row input {
+        padding-right: 14px;
+    }
+    .signin {
+        margin-left: 0;
+    }
+    .left {
+        padding: 20px;
+    }
+}

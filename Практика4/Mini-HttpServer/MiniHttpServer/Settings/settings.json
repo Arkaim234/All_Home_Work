@@ -1,0 +1,8 @@
+{
+  "SearcherUri": "Searcher",
+  "ChatGPTUri": "ChatGPT",
+  "OlaraUri": "Olara",
+  "LoginUri": "LoginForm",
+  "Domain": "localhost",
+  "Port": "1337"
+}
