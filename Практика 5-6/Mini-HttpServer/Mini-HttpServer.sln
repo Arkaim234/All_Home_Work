@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniHttpServer", "MiniHttpServer\MiniHttpServer.csproj", "{16DF5DF5-5647-4F00-BEF1-49AB320C3069}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTemplateEngine", "iniTemplateEngine\MiniTemplateEngine.csproj", "{AB2D1802-D829-4C4A-BFEF-295755ADE77A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTempleteEngineTest", "MiniTempleteEngineTest\MiniTempleteEngineTest.csproj", "{B531DD06-D6E1-4D18-9D03-A1F675E0D233}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniHttpServer.Frimework", "MiniHttpServer.Frimework\MiniHttpServer.Frimework.csproj", "{5B8331DA-8FE2-4AA2-A76B-8BEDE70A608C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniHttpServer.IntegrationTests", "MiniHttpServer.Framework.UnitTests\MiniHttpServer.IntegrationTests.csproj", "{AD72E9D1-9353-42A0-BFCC-EEBA461CE176}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyORMLibrary", "MyORMContext\MyORMLibrary.csproj", "{05D75B5E-4263-423A-A730-5B7070E5086D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16DF5DF5-5647-4F00-BEF1-49AB320C3069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16DF5DF5-5647-4F00-BEF1-49AB320C3069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16DF5DF5-5647-4F00-BEF1-49AB320C3069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16DF5DF5-5647-4F00-BEF1-49AB320C3069}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB2D1802-D829-4C4A-BFEF-295755ADE77A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB2D1802-D829-4C4A-BFEF-295755ADE77A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB2D1802-D829-4C4A-BFEF-295755ADE77A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB2D1802-D829-4C4A-BFEF-295755ADE77A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B531DD06-D6E1-4D18-9D03-A1F675E0D233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B531DD06-D6E1-4D18-9D03-A1F675E0D233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B531DD06-D6E1-4D18-9D03-A1F675E0D233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B531DD06-D6E1-4D18-9D03-A1F675E0D233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B8331DA-8FE2-4AA2-A76B-8BEDE70A608C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B8331DA-8FE2-4AA2-A76B-8BEDE70A608C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B8331DA-8FE2-4AA2-A76B-8BEDE70A608C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B8331DA-8FE2-4AA2-A76B-8BEDE70A608C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD72E9D1-9353-42A0-BFCC-EEBA461CE176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD72E9D1-9353-42A0-BFCC-EEBA461CE176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD72E9D1-9353-42A0-BFCC-EEBA461CE176}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD72E9D1-9353-42A0-BFCC-EEBA461CE176}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05D75B5E-4263-423A-A730-5B7070E5086D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05D75B5E-4263-423A-A730-5B7070E5086D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05D75B5E-4263-423A-A730-5B7070E5086D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05D75B5E-4263-423A-A730-5B7070E5086D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F06766B9-06F2-4696-86B5-F9A21AB29F2A}
+	EndGlobalSection
+EndGlobal
