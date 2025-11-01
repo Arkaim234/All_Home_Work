@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашка поисковик</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="reset.css">
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="all">
+
+        <div class="weather">
+                <div class="temp"><b>36°</b></div>
+                <div class="city">Ahmedabad</div>
+        </div>
+
+        <div class="container">
+            <div class="center">
+                <div class="clock" id="clock"><b>09:11:01</b></div>
+                <div class="greeting">Good Morning, Saad.</div>
+            </div>
+
+            <div class="search-container">
+                <label class="search-label">
+                    <form class="search-form">
+                        <img src="Pictures/search-01.svg" alt="Search" class="search-icon">
+                        <input type="search" class="search-bar" placeholder="Search">
+                    </form>
+                </label>
+            </div>
+              <div class="links">
+                    <ul class="social__wrapper">
+                        <li>
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="Common/YouTube.jpg">
+                                <img src="Small/YouTube.jpg" alt="">
+                            </picture>
+                        </li>
+                        <li>
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="Common/ChatGPT.jpg">
+                                <img src="Small/ChatGPT.jpg" alt="">
+                            </picture>
+                        </li>
+                        <li>
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="Common/GG.jpg">
+                                <img src="Small/GG.jpg" alt="">
+                            </picture>
+                        </li>
+                        <li>
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="Common/Deepseek.jpg">
+                                <img src="Small/DeepSeek.jpg" alt="">
+                            </picture>
+                        </li>
+                        <li>
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="Common/GitHub.jpg">
+                                <img src="Small/Github.jpg" alt="">
+                            </picture>
+                        </li>
+                        <li id="in">
+                            <img src="Common/In.jpg" alt="">
+                        </li>
+                        <li id="plus">
+                            <img src="Common/Plus.jpg" alt="">
+                        </li>
+                    </ul>
+               </div>
+        </div>
+    </div>
+     <style>
+        .container{
+            display: flex;
+            flex-direction: column; 
+            align-items: center;    
+            gap: 55.65px;
+            max-width: 621px;
+            margin: auto;
+            margin-top: 254px;
+        }
+        .center{
+            flex: 1; 
+            font-size: 30px;
+            display: flex;         
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;    
+            gap: 9.28px;
+        }
+        .temp{
+           font-family: "Afacad", sans-serif;
+            font-weight: 700;
+            font-size: 32px; 
+            width: 44px;
+            height: 43px;
+            display: flex;
+            justify-content: end;
+        }
+        .city{
+            color: #6E6CDF;
+            font-family: "Afacad", sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            width: 98px;
+            height: 27px;
+        }
+        .greeting{
+            color: #6E6CDF;
+            font-family: "Afacad", sans-serif;
+            font-weight: 700;
+        }
+        .search-container{
+           width: 621.45px; 
+           border-radius:18.55px;
+           border: solid 1.16px #EEEEEE;
+           background-color: #FAFAFA;
+           display: flex;
+           padding-top: 18.55px;
+           padding-bottom: 18.55px;
+           padding-left: 27.83px;
+           padding-right: 27.83px;
+           gap: 55.65px;
+           align-items: center;
+        }
+        .search-label {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .search-form {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            gap: 15px;
+        }
+        .search-bar{
+            font-family: "Poppins", sans-serif;
+            color: #9E9E9E;
+            background-color: #FAFAFA;
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 20px;
+        }
+        .search-icon{
+            width: 28px;
+            height: 28px;
+        }
+        .weather{
+            text-align: right;
+            display: flex;
+            align-items: end;
+            flex-direction: column;
+            width: 1658px;
+            justify-self: center;
+        }
+        .clock{
+            font-family: "Afacad", sans-serif;
+            font-weight: 700;
+            font-size: 74px;
+        }
+        .social__wrapper {
+            box-shadow: #FAFAFA;
+            border-radius: 18.57px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .links{
+            flex-grow: 1;
+            width: 100%;
+        }
+        li{
+            padding: 20px;
+            background-color: #FAFAFA;
+            border: solid 1.16px #EEEEEE;
+            border-radius: 18.57px;
+        }
+     </style>
+</body>
+</html>
