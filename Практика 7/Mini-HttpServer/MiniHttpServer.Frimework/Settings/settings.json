@@ -1,0 +1,9 @@
+{
+  "SearcherUri": "Searcher",
+  "ChatGPTUri": "ChatGPT",
+  "OlaraUri": "Olara",
+  "LoginUri": "LoginForm",
+  "Domain": "localhost",
+  "Port": "1337",
+  "ConectionString" : "Host=localhost;Port=5432;Database=Users;Username=postgres;Password=Olganik496"
+}

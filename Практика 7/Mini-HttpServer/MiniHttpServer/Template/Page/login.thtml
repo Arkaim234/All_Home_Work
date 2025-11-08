@@ -1,0 +1,11 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>${Title}</title>
+</head>
+<body>
+    <h1>Заголовок: ${Title}</h1>
+    <p>Если видишь "Авторизация" выше, то шаблонизатор работает!</p>
+</body>
+</html>
