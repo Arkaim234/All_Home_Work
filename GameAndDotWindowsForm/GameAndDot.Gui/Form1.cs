@@ -57,7 +57,7 @@ namespace GameAndDot.Gui
             }
             listBox1.DrawMode = DrawMode.OwnerDrawFixed;
             listBox1.DrawItem += new DrawItemEventHandler(listBox1_DrawItem);
-            listBox1.ItemHeight = 40;
+            listBox1.ItemHeight = 30;
             listBox1.IntegralHeight = false;
         }
 
@@ -87,11 +87,11 @@ namespace GameAndDot.Gui
 
             _userName = textBox1.Text;
             label3.Text = _userName;
-            label5.Text = _userColor;
 
             GenerateRandomColor();
             Console.WriteLine($"Игрок {_userName} получил цвет: {_userColor}");
             playerColors[_userName] = _userColor;
+            label5.Text = _userColor;
             // запускаем новый поток для получения данных
             Task.Run(() => ReceiveMessageAsync());
 
@@ -144,7 +144,7 @@ namespace GameAndDot.Gui
                                     }
                                 });
                             }
-                            break;
+                        break;
                         case EventType.PointedPlaced:
                             Console.WriteLine($"Получил от {messageRequest.Username}: ({messageRequest.X},{messageRequest.Y}), цвет: {messageRequest.Color}");
                             if(!string.IsNullOrEmpty(messageRequest.Username) && !string.IsNullOrEmpty(messageRequest.Color))
@@ -159,6 +159,24 @@ namespace GameAndDot.Gui
                                     DrawPoint(messageRequest.X, messageRequest.Y, messageRequest.Color);
                                 });
                             }
+                        break;
+                        case EventType.PlayerDisconected:
+                            Console.WriteLine($"Игрок {messageRequest.Username} отключился");
+
+                            Invoke(() =>
+                            {
+                                // Удаляем из ListBox
+                                listBox1.Items.Remove(messageRequest.Username);
+
+                                // Удаляем из словаря цветов
+                                if (playerColors.ContainsKey(messageRequest.Username))
+                                {
+                                    playerColors.Remove(messageRequest.Username);
+                                }
+
+                                // Опционально: очищаем точки этого игрока
+                                // points.RemoveAll(p => ...);
+                            });
                             break;
                     }
                 }

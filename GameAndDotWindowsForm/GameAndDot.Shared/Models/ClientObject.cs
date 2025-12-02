@@ -112,6 +112,18 @@ namespace GameAndDot.Shared.Models
             }
             finally
             {
+                if (!string.IsNullOrEmpty(Username))
+                {
+                    var disconnectMessage = new EventMessege
+                    {
+                        Type = EventType.PlayerDisconected,
+                        Username = Username
+                    };
+                    string json = JsonSerializer.Serialize(disconnectMessage);
+                    await server.BroadcastMessageAsync(json, Id);
+                }
+
+                // Потом удаляем соединение
                 server.RemoveConnection(Id);
             }
         }

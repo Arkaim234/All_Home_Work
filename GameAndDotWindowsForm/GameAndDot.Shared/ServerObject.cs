@@ -23,11 +23,15 @@ namespace GameAndDot.Shared
         }
         protected internal void RemoveConnection(string id)
         {
-            // получаем по id закрытое подключение
             ClientObject? client = Clients.FirstOrDefault(c => c.Id == id);
-            // и удаляем его из списка подключений
-            if (client != null) Clients.Remove(client);
-            client?.Close();
+            if (client != null)
+            {
+                string username = client.Username;
+                Clients.Remove(client);
+                client.Close();
+
+                points.RemoveAll(p => p.Username == username);
+            }
         }
         // прослушивание входящих подключений
         public async Task ListenAsync()
