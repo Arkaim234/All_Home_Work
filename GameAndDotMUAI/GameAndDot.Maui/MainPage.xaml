@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="GameAndDot.Maui.MainPage"
+    BackgroundColor="#EDEDED">
+
+    <!-- Абсолютный layout, как WinForms -->
+    <AbsoluteLayout>
+
+        <!-- Левая область (поле рисования) -->
+        <GraphicsView
+            x:Name="DrawArea"
+            BackgroundColor="#F4F4F4"
+            AbsoluteLayout.LayoutBounds="0,0,980,760"
+            AbsoluteLayout.LayoutFlags="None" />
+
+        <!-- Правая панель -->
+        <Frame 
+            CornerRadius="0"
+            BackgroundColor="White"
+            BorderColor="#C0C0C0"
+            AbsoluteLayout.LayoutBounds="980,0,760,760"
+            AbsoluteLayout.LayoutFlags="None">
+
+            <AbsoluteLayout>
+
+                <!-- Ваше имя -->
+                <Label 
+                    Text="Ваше имя:"
+                    FontFamily="Times New Roman"
+                    FontAttributes="Bold"
+                    FontSize="26"
+                    AbsoluteLayout.LayoutBounds="10,10,300,40" />
+
+                <Label
+                    x:Name="UserNameLabel"
+                    Text="User 1"
+                    FontFamily="Times New Roman"
+                    FontSize="24"
+                    AbsoluteLayout.LayoutBounds="150,10,300,40" />
+
+                <!-- Color -->
+                <Label 
+                    Text="Color:"
+                    FontFamily="Times New Roman"
+                    FontAttributes="Bold"
+                    FontSize="26"
+                    AbsoluteLayout.LayoutBounds="10,55,300,40" />
+
+                <Label
+                    x:Name="ColorLabel"
+                    Text="#black"
+                    FontFamily="Times New Roman"
+                    FontSize="24"
+                    AbsoluteLayout.LayoutBounds="150,55,300,40" />
+
+                <!-- Список всех игроков -->
+                <Label 
+                    Text="Список всех игроков"
+                    FontFamily="Times New Roman"
+                    FontAttributes="Bold"
+                    FontSize="26"
+                    AbsoluteLayout.LayoutBounds="10,110,400,40" />
+
+                <!-- Аналог listBox1 -->
+                <CollectionView 
+                    x:Name="PlayersList"
+                    AbsoluteLayout.LayoutBounds="10,160,740,550">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding}" 
+                                   FontFamily="Times New Roman"
+                                   FontSize="22"
+                                   Padding="6" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </AbsoluteLayout>
+        </Frame>
+
+        <!-- Панель логина слева снизу -->
+        <!-- Панель логина: по центру по вертикали, прижата слева -->
+        <Frame 
+            x:Name="LoginPanel"
+            BackgroundColor="Transparent"
+            HasShadow="False"
+            AbsoluteLayout.LayoutBounds="0,0.5,900,120"
+            AbsoluteLayout.LayoutFlags="YProportional">
+
+            <Grid ColumnDefinitions="Auto,*,Auto">
+
+                <Label 
+            Text="Введите пользователя:"
+            FontFamily="Times New Roman"
+            FontSize="26"
+            FontAttributes="Bold"
+            VerticalTextAlignment="Center"/>
+
+                <Entry 
+            x:Name="NameEntry"
+            Grid.Column="1"
+            FontSize="20"
+            Margin="10,0"/>
+
+                <Button 
+            Text="Войти"
+            Grid.Column="2"
+            FontSize="20"
+            Clicked="OnLoginClick" />
+
+            </Grid>
+
+        </Frame>
+
+
+    </AbsoluteLayout>
+</ContentPage>
