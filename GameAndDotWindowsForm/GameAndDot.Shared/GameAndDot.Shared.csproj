@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\XProtocol\XProtocol.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Settings\settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

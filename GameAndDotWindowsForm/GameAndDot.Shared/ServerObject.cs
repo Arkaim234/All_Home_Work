@@ -61,23 +61,22 @@ namespace GameAndDot.Shared
         }
 
         // трансляция сообщения подключенным клиентам
-        public async Task BroadcastMessageAsync(string message, string id)
+        public async Task BroadcastMessageAsync(EventMessege message, string id)
         {
             foreach (var client in Clients)
             {
-                if (client.Id != id) // если id клиента не равно id отправителя
+                if (client.Id != id) // не отправляем обратно отправителю
                 {
-                    await client.Writer.WriteLineAsync(message); //передача данных
-                    await client.Writer.FlushAsync();
+                    await client.SendMessageAsync(message);
                 }
             }
         }
-        public async Task BroadcastMessageAllAsync(string message)
+
+        public async Task BroadcastMessageAllAsync(EventMessege message)
         {
             foreach (var client in Clients)
             {
-                await client.Writer.WriteLineAsync(message); //передача данных
-                await client.Writer.FlushAsync();
+                await client.SendMessageAsync(message);
             }
         }
 

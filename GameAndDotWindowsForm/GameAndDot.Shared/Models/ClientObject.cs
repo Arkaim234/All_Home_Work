@@ -1,9 +1,9 @@
 ﻿using GameAndDot.Shared.Enums;
+using GameAndDot.Shared.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -12,96 +12,70 @@ namespace GameAndDot.Shared.Models
     public class ClientObject
     {
         protected internal string Id { get; } = Guid.NewGuid().ToString();
-        public string Username { get; set; } = String.Empty;
-        protected internal StreamWriter Writer { get; }
-        protected internal StreamReader Reader { get; }
+        public string Username { get; set; } = string.Empty;
         public string Color { get; set; } = string.Empty;
 
-        TcpClient client;
-        ServerObject server; // объект сервера
+        private readonly TcpClient _client;
+        private readonly ServerObject _server;
+        private readonly NetworkStream _stream;
+
+        private readonly List<byte> _buffer = new();
 
         public ClientObject(TcpClient tcpClient, ServerObject serverObject)
         {
-            client = tcpClient;
-            server = serverObject;
-            // получаем NetworkStream для взаимодействия с сервером
-            var stream = client.GetStream();
-            // создаем StreamReader для чтения данных
-            Reader = new StreamReader(stream);
-            // создаем StreamWriter для отправки данных
-            Writer = new StreamWriter(stream);
+            _client = tcpClient;
+            _server = serverObject;
+            _stream = _client.GetStream();
             Color = GenerateRandomColor();
         }
+
         private string GenerateRandomColor()
         {
             Random random = new Random();
             return $"#{random.Next(0x1000000):X6}";
         }
+
         public async Task ProcessAsync()
         {
+            var recvBuf = new byte[1024];
+
             try
             {
                 while (true)
                 {
-                    var jsonRequest = await Reader.ReadLineAsync();
-                    Console.WriteLine($"Сервер получил: {jsonRequest}");
-
-                    var messageRequest = JsonSerializer.Deserialize<EventMessege>(jsonRequest);
-                    if (messageRequest == null) continue;
-
-                    switch (messageRequest.Type)
+                    int read = await _stream.ReadAsync(recvBuf, 0, recvBuf.Length);
+                    if (read == 0)
                     {
-                        case Enums.EventType.PlayerConected:
-                            // Сохраняем имя из сообщения
-                            Username = messageRequest.Username;
-                            var playerColors = new Dictionary<string,string>();
-                            foreach (var client in server.Clients)
-                            {
-                                if (!string.IsNullOrEmpty(client.Color))
-                                {
-                                    playerColors[client.Username] = client.Color;
-                                }
-                            }
-                            // Сохраняем цвет из сообщения (если есть), иначе генерируем
-                            if (!string.IsNullOrEmpty(messageRequest.Color))
-                                Color = messageRequest.Color;
+                        break;
+                    }
 
-                            Console.WriteLine($"{Username} вошел в чат, цвет: {Color}");
+                    _buffer.AddRange(recvBuf.AsSpan(0, read).ToArray());
 
-                            var messageResponse = new EventMessege()
-                            {
-                                Type = EventType.PlayerConected,
-                                Username = Username,
-                                Id = Id,
-                                Players = server.Clients.Select(c => c.Username).ToList(),
-                                Points = server.points.Select(p => new PointData
-                                {
-                                    Username = p.Username,
-                                    X = p.X,
-                                    Y = p.Y,
-                                    Color = p.Color
-                                }).ToList(),
-                                PlayerColors = playerColors
-                            };
-                            string jsonResponse = JsonSerializer.Serialize(messageResponse);
-                            Console.WriteLine($"Сервер отправляет: {jsonResponse}");
-                            await server.BroadcastMessageAllAsync(jsonResponse);
+                    while (true)
+                    {
+                        int endIndex = GameProtocol.FindPacketEndIndex(_buffer);
+                        if (endIndex == -1)
                             break;
 
-                        case Enums.EventType.PointedPlaced:
-                            Console.WriteLine($"Сервер получил точку: {messageRequest.Username}, ({messageRequest.X},{messageRequest.Y}), цвет: {messageRequest.Color}");
+                        int packetLength = endIndex + 2;
+                        byte[] packetBytes = _buffer.Take(packetLength).ToArray();
+                        _buffer.RemoveRange(0, packetLength);
 
-                            server.points.Add(new PointData
-                            {
-                                Username = Username, 
-                                X = messageRequest.X,
-                                Y = messageRequest.Y,
-                                Color = messageRequest.Color
-                            });
+                        EventMessege? messageRequest = null;
+                        try
+                        {
+                            messageRequest = GameProtocol.DeserializeMessage(packetBytes);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Ошибка парсинга XPacket: " + ex.Message);
+                            continue;
+                        }
 
-                            Console.WriteLine($"Сервер пересылает точку всем...");
-                            await server.BroadcastMessageAsync(jsonRequest, Id);
-                            break;
+                        if (messageRequest == null)
+                            continue;
+
+                        await HandleMessageAsync(messageRequest);
                     }
                 }
             }
@@ -119,20 +93,86 @@ namespace GameAndDot.Shared.Models
                         Type = EventType.PlayerDisconected,
                         Username = Username
                     };
-                    string json = JsonSerializer.Serialize(disconnectMessage);
-                    await server.BroadcastMessageAsync(json, Id);
+                    await _server.BroadcastMessageAsync(disconnectMessage, Id);
                 }
 
-                // Потом удаляем соединение
-                server.RemoveConnection(Id);
+                _server.RemoveConnection(Id);
             }
         }
-        // закрытие подключения
+
+        private async Task HandleMessageAsync(EventMessege messageRequest)
+        {
+            switch (messageRequest.Type)
+            {
+                case EventType.PlayerConected:
+
+                    Username = messageRequest.Username;
+
+                    if (!string.IsNullOrEmpty(messageRequest.Color))
+                        Color = messageRequest.Color;
+
+                    Console.WriteLine($"{Username} вошел в чат, цвет: {Color}");
+
+                    var playerColors = new Dictionary<string, string>();
+                    foreach (var client in _server.Clients)
+                    {
+                        if (!string.IsNullOrEmpty(client.Color))
+                        {
+                            playerColors[client.Username] = client.Color;
+                        }
+                    }
+
+                    var messageResponse = new EventMessege
+                    {
+                        Type = EventType.PlayerConected,
+                        Username = Username,
+                        Id = Id,
+                        Players = _server.Clients.Select(c => c.Username).ToList(),
+                        Points = _server.points.Select(p => new PointData
+                        {
+                            Username = p.Username,
+                            X = p.X,
+                            Y = p.Y,
+                            Color = p.Color
+                        }).ToList(),
+                        PlayerColors = playerColors
+                    };
+
+                    await _server.BroadcastMessageAllAsync(messageResponse);
+                    break;
+
+                case EventType.PointedPlaced:
+                    Console.WriteLine($"Сервер получил точку: {messageRequest.Username}, ({messageRequest.X},{messageRequest.Y}), цвет: {messageRequest.Color}");
+
+                    _server.points.Add(new PointData
+                    {
+                        Username = Username,
+                        X = messageRequest.X,
+                        Y = messageRequest.Y,
+                        Color = messageRequest.Color
+                    });
+
+                    Console.WriteLine("Сервер пересылает точку всем...");
+                    await _server.BroadcastMessageAsync(messageRequest, Id);
+                    break;
+            }
+        }
+
+        public async Task SendMessageAsync(EventMessege message)
+        {
+            byte[] packetBytes = GameProtocol.SerializeMessage(message);
+            await _stream.WriteAsync(packetBytes, 0, packetBytes.Length);
+            await _stream.FlushAsync();
+        }
+
         protected internal void Close()
         {
-            Writer.Close();
-            Reader.Close();
-            client.Close();
+            try
+            {
+                _stream.Close();
+                _client.Close();
+            }
+            catch { }
         }
     }
 }
