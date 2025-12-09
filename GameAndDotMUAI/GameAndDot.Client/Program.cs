@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.Json;
+using GameAndDot.Shared.Protocol;
 
 namespace GameAndDot.Client
 {

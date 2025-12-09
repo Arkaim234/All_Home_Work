@@ -31,14 +31,14 @@ namespace GameAndDot.Shared
         }
         protected internal void RemoveConnection(string id)
         {
-            ClientObject? client = Clients.FirstOrDefault(c => c.Id == id);
+            var client = Clients.FirstOrDefault(c => c.Id == id);
             if (client != null)
             {
-                string username = client.Username;
                 Clients.Remove(client);
                 client.Close();
 
-                points.RemoveAll(p => p.Username == username);
+                Console.WriteLine($"{client.Username} покинул чат");
+
             }
         }
         // прослушивание входящих подключений
@@ -46,6 +46,7 @@ namespace GameAndDot.Shared
         {
             try
             {
+                _listensocket.Listen();
                 Console.WriteLine("Сервер запущен. Ожидание подключений...");
 
                 while (true)
@@ -68,21 +69,21 @@ namespace GameAndDot.Shared
         }
 
         // трансляция сообщения подключенным клиентам
-        public async Task BroadcastMessageAsync(string message, string id)
+        public async Task BroadcastMessageAsync(EventMessege message, string id)
         {
-            foreach (var client in Clients)
+            foreach (var client in Clients.ToList())
             {
                 if (client.Id != id) // если id клиента не равно id отправителя
                 {
-                    await client.Writer.WriteLineAsync(message);
+                    await client.SendMessageAsync(message);
                 }
             }
         }
-        public async Task BroadcastMessageAllAsync(string message)
+        public async Task BroadcastMessageAllAsync(EventMessege message)
         {
             foreach (var client in Clients)
             {
-                await client.Writer.WriteLineAsync(message);
+                await client.SendMessageAsync(message);
             }
         }
 

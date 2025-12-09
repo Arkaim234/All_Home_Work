@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GameAndDot.Shared.Enums;
+using GameAndDot.Shared.Models;
+using GameAndDot.Shared.Protocol;
 using System.Collections.ObjectModel;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using GameAndDot.Shared;
-using GameAndDot.Shared.Enums;
-using GameAndDot.Shared.Models;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Graphics;
-using System.Linq;
 
 namespace GameAndDot.Maui
 {
@@ -26,6 +19,7 @@ namespace GameAndDot.Maui
 
         private Socket? _socket;
         private CancellationTokenSource? _cts;
+        private readonly List<byte> _packetBuffer = new();
 
         public MainPage()
         {
@@ -100,11 +94,8 @@ namespace GameAndDot.Maui
             if (_socket == null)
                 return;
 
-            var json = JsonSerializer.Serialize(message);
-            var data = Encoding.UTF8.GetBytes(json + "\n");
-            var segment = new ArraySegment<byte>(data, 0, data.Length);
-
-            await _socket.SendAsync(segment, SocketFlags.None);
+            byte[] packetBytes = GameProtocol.SerializeMessage(message);
+            await _socket.SendAsync(packetBytes, SocketFlags.None);
         }
 
         private async Task ReceiveLoopAsync(CancellationToken token)
@@ -113,7 +104,6 @@ namespace GameAndDot.Maui
                 return;
 
             var buffer = new byte[4096];
-            var pending = new StringBuilder();
 
             try
             {
@@ -122,34 +112,32 @@ namespace GameAndDot.Maui
                     int bytesRead = await _socket.ReceiveAsync(buffer, SocketFlags.None);
                     if (bytesRead == 0)
                     {
+                        // сервер отключился
                         break;
                     }
 
-                    string part = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    pending.Append(part);
+                    // Добавляем пришедшие байты в общий буфер
+                    _packetBuffer.AddRange(buffer.AsSpan(0, bytesRead).ToArray());
 
+                    // Пытаемся вытащить все полные XPacket'ы
                     while (true)
                     {
-                        string full = pending.ToString();
-                        int newlineIndex = full.IndexOf('\n');
-                        if (newlineIndex == -1)
-                            break;
+                        int endIndex = GameProtocol.FindPacketEndIndex(_packetBuffer);
+                        if (endIndex == -1)
+                            break; // полного пакета ещё нет
 
-                        string jsonText = full.Substring(0, newlineIndex);
-                        pending.Clear();
-                        pending.Append(full.Substring(newlineIndex + 1));
-
-                        if (string.IsNullOrWhiteSpace(jsonText))
-                            continue;
+                        int packetLength = endIndex + 2; // 0xFF, 0x00 занимают 2 байта
+                        byte[] packetBytes = _packetBuffer.Take(packetLength).ToArray();
+                        _packetBuffer.RemoveRange(0, packetLength);
 
                         EventMessege? msg = null;
                         try
                         {
-                            msg = JsonSerializer.Deserialize<EventMessege>(jsonText);
+                            msg = GameProtocol.DeserializeMessage(packetBytes);
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Ошибка парсинга JSON: " + ex.Message);
+                            Console.WriteLine("Ошибка парсинга XPacket: " + ex.Message);
                             continue;
                         }
 

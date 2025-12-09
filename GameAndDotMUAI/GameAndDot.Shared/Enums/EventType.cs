@@ -9,9 +9,8 @@ namespace GameAndDot.Shared.Enums
 {
     public enum EventType
     {
-        PlayerJoined,
-        PlayerLeft,
-        StartGame,
-        PlayCard,
+        PlayerConected,
+        PlayerDisconected,
+        PointedPlaced
     }
 }
